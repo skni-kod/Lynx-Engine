@@ -1,6 +1,9 @@
 #include <iostream>
+#include "../include/LynxWindow.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    LynxWindow window;
+    while(1)
+        window.waitEvent();
     return 0;
 }

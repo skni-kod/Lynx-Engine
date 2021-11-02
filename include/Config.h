@@ -16,11 +16,11 @@
 
     #elif defined(__ANDROID__)
         // Android
-        #define LYNX_PLATFORM_ANDROID
+        #error Ta platforma nie jest wspierana przez Lynx
 
     #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
         // FreeBSD
-        #define LYNX_PLATFORM_FREEBSD
+        #error Ta platforma nie jest wspierana przez Lynx
 
     #else
         #error Ta platforma nie jest wspierana przez Lynx
@@ -32,7 +32,7 @@
 
     #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         // iOS
-        #define LYNX_PLATFORM_IOS
+        #error Ta platforma nie jest wspierana przez Lynx
 
     #elif TARGET_OS_MAC
         // MacOS

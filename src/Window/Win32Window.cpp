@@ -1,6 +1,6 @@
 #include "../../include/Config.h"
 
 #if LYNX_PLATFORM_WINDOWS
-#include "../../include/Window.h"
+#include "Win32Window.h"
 #error
 #endif
