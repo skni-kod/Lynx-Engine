@@ -3,7 +3,8 @@
 
 int main() {
     LynxWindow window;
+    Event e;
     while(1)
-        window.waitEvent();
+        window.waitEvent(e);
     return 0;
 }

@@ -5,12 +5,14 @@
 
 #if defined(LYNX_PLATFORM_MACOS)
 
+#include "../Event.h"
+
 class LynxWindow  {
 public:
     LynxWindow();
     ~LynxWindow();
-    bool pollEvent();
-    bool waitEvent();
+    bool pollEvent(Event&);
+    bool waitEvent(Event&);
 private:
     ...
 };

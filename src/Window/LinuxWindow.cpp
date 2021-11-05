@@ -21,13 +21,13 @@ LynxWindow::~LynxWindow(){
     XCloseDisplay(d);
 }
 
-bool LynxWindow::waitEvent() {
-    XNextEvent(d, &e);
+bool LynxWindow::waitEvent(Event& e) {
+    XNextEvent(d, &xevent);
     return true;
 }
 
-bool LynxWindow::pollEvent() {
-    XNextEvent(d, &e); // oops this blocks
+bool LynxWindow::pollEvent(Event& e) {
+    XNextEvent(d, &xevent); // oops this blocks
     return true;
 }
 
