@@ -2,10 +2,10 @@
 
 #if defined(LYNX_PLATFORM_LINUX)
 
-#include "LinuxWindow.h"
+#include "../../include/Platform/LinuxWindow.h"
 #include "cstdlib"
 
-LinuxWindow::LinuxWindow() {
+LynxWindow::LynxWindow() {
     d = XOpenDisplay(nullptr);
     if (d == nullptr) {
         exit(1); // TODO wywalić to
@@ -17,16 +17,16 @@ LinuxWindow::LinuxWindow() {
     XMapWindow(d, w);
 }
 
-LinuxWindow::~LinuxWindow(){
+LynxWindow::~LynxWindow(){
     XCloseDisplay(d);
 }
 
-bool LinuxWindow::waitEvent() {
+bool LynxWindow::waitEvent() {
     XNextEvent(d, &e);
     return true;
 }
 
-bool LinuxWindow::poolEvent() {
+bool LynxWindow::pollEvent() {
     XNextEvent(d, &e); // oops this blocks
     return true;
 }

@@ -1,12 +1,17 @@
 #ifndef LYNX_ENGINE_MACOSWINDOW_H
 #define LYNX_ENGINE_MACOSWINDOW_H
 
-#include "../../include/Config.h"
+#include "../Config.h"
 
 #if defined(LYNX_PLATFORM_MACOS)
 
-#include "WindowBase.h"
-class MacOSWindow : WindowBase {
+class LynxWindow  {
+public:
+    LynxWindow();
+    ~LynxWindow();
+    bool pollEvent();
+    bool waitEvent();
+private:
     ...
 };
 

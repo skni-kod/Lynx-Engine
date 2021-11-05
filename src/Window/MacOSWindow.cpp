@@ -1,6 +1,6 @@
 #include "../../include/Config.h"
 
-#ifdef LYNX_PLATFORM_MACOS
-#include "MacOSWindow.h"
+#if defined(LYNX_PLATFORM_MACOS)
+#include "../../include/Platform/MacOSWindow.h"
 #error
 #endif
