@@ -1,12 +1,11 @@
-#ifndef LYNX_ENGINE_LINUXWINDOW_H
-#define LYNX_ENGINE_LINUXWINDOW_H
+#ifndef LYNX_ENGINE_TEMPLATEWINDOW_H
+#define LYNX_ENGINE_TEMPLATEWINDOW_H
 
 #include "../Config.h"
-
-#if defined(LYNX_PLATFORM_LINUX)
+#if defined(LYNX_PLATFORM_EXAMPLE_PLATFORM)
 
 #include "../Event.h"
-#include <X11/Xlib.h>
+#include ...
 
 class LynxWindow  {
 public:
@@ -22,11 +21,9 @@ public:
     void getPosition(uint32_t&, uint32_t&);
 
 private:
-    Display *d;
-    Window w;
-    XEvent xevent;
-    int s;
+    // Any OS specific variables go here
 };
 
 #endif
-#endif //LYNX_ENGINE_LINUXWINDOW_H
+#endif
+

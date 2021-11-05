@@ -2,6 +2,8 @@
 #define LYNX_ENGINE_LYNXWINDOW_H
 
 #include "Event.h"
+#include "cstdint"
+
 
 class LynxWindow {
 public:
@@ -9,6 +11,12 @@ public:
     ~LynxWindow();
     bool pollEvent(Event&);
     bool waitEvent(Event&);
+    void close();
+    void requestFocus();
+    void setSize(uint32_t, uint32_t);
+    void getSize(uint32_t&, uint32_t&);
+    void setPosition(uint32_t, uint32_t);
+    void getPosition(uint32_t&, uint32_t&);
 };
 
 #endif //LYNX_ENGINE_LYNXWINDOW_H

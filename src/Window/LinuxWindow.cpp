@@ -5,6 +5,7 @@
 #include "../../include/Platform/LinuxWindow.h"
 #include "cstdlib"
 
+
 LynxWindow::LynxWindow() {
     d = XOpenDisplay(nullptr);
     if (d == nullptr) {
@@ -29,6 +30,30 @@ bool LynxWindow::waitEvent(Event& e) {
 bool LynxWindow::pollEvent(Event& e) {
     XNextEvent(d, &xevent); // oops this blocks
     return true;
+}
+
+void LynxWindow::close() {
+
+}
+
+void LynxWindow::requestFocus() {
+
+}
+
+void LynxWindow::setSize(uint32_t, uint32_t) {
+
+}
+
+void LynxWindow::getSize(uint32_t &, uint32_t &) {
+
+}
+
+void LynxWindow::setPosition(uint32_t, uint32_t) {
+
+}
+
+void LynxWindow::getPosition(uint32_t &, uint32_t &) {
+
 }
 
 #endif // LYNX_PLATFORM_LINUX
