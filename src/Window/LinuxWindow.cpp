@@ -19,6 +19,7 @@ LynxWindow::LynxWindow() {
 }
 
 LynxWindow::~LynxWindow(){
+    XDestroyWindow(d, w);
     XCloseDisplay(d);
 }
 
@@ -40,20 +41,24 @@ void LynxWindow::requestFocus() {
 
 }
 
-void LynxWindow::setSize(uint32_t, uint32_t) {
-
+void LynxWindow::setSize(uint32_t width, uint32_t height) {
+    XResizeWindow(d, w, width, height);
 }
 
 void LynxWindow::getSize(uint32_t &, uint32_t &) {
 
 }
 
-void LynxWindow::setPosition(uint32_t, uint32_t) {
+void LynxWindow::setPosition(int32_t x, int32_t y) {
+    XMoveWindow(d, w, x, y);
+}
+
+void LynxWindow::getPosition(int32_t &, int32_t &) {
 
 }
 
-void LynxWindow::getPosition(uint32_t &, uint32_t &) {
-
+void LynxWindow::setBorderWidth(uint32_t width) {
+    XSetWindowBorderWidth(d, w, width);
 }
 
 #endif // LYNX_PLATFORM_LINUX

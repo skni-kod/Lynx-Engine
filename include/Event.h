@@ -51,19 +51,19 @@ class Event {
         Key key;
         ModBit modifiers;
 
-        inline bool isAltPressed() {
+        inline bool isAltPressed() const {
             return modifiers & ModBit::ALT;
         }
 
-        inline bool isCtrlPressed() {
+        inline bool isCtrlPressed() const {
             return modifiers & ModBit::CTRL;
         }
 
-        inline bool isShiftPressed() {
+        inline bool isShiftPressed() const {
             return modifiers & ModBit::SHIFT;
         }
 
-        inline bool isSuperPressed() {
+        inline bool isSuperPressed() const {
             return modifiers & ModBit::SUPER;
         }
     };
