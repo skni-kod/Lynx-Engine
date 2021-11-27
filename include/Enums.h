@@ -3,7 +3,6 @@
 
 #include "cstdint"
 
-// dosłownie skopiowane z SFML. tylko typ zmieniłem żeby zaoszczędzić to 24 bitów
 enum class Key : int8_t {
      Unknown = -1,
      A = 0,

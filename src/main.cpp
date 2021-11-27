@@ -1,10 +1,10 @@
 #include <iostream>
-#include "../include/LynxWindow.h"
+#include "Platform/C/LynxWindow.h"
 
 int main() {
-    LynxWindow window;
+    auto window = createWindow();
     Event e;
     while(1)
-        window.waitEvent(e);
+        waitEvent(window, &e);
     return 0;
 }
