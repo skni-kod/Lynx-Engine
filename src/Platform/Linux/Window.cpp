@@ -5,6 +5,26 @@
 #include "Platform/C/LynxWindow.h"
 #include <X11/Xlib.h>
 
+#include "cstdio"
+
+// Utils
+
+bool translateEvent(XEvent *xe, Event *e) {
+    switch(xe -> type) {
+        case KeyPress:
+            e -> type = Event::EventType::KeyPressed;
+            e -> keyEvent = Event::KeyEvent{};
+            printf("Key Pressed: %d\n", xe->xkey.keycode);
+            return true;
+        case KeyRelease:
+            e -> type = Event::EventType::KeyReleased;
+            e -> keyEvent = Event::KeyEvent{};
+            printf("Key Released: %d\n", xe->xkey.keycode);
+            return true;
+    }
+    return false;
+}
+
 struct LynxWindow {
     Display *d;
     Window w;
@@ -37,11 +57,13 @@ bool destroyWindow(LynxWindow* win) {
 
 bool pollEvent(LynxWindow *win, Event *e) {
     XNextEvent(win -> d, &win -> xevent); // oops this blocks
+    translateEvent(&win -> xevent, e);
     return true;
 }
 
 bool waitEvent(LynxWindow *win, Event *e) {
     XNextEvent(win -> d, &win -> xevent);
+    translateEvent(&win -> xevent, e);
     return true;
 }
 
