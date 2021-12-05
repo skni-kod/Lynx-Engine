@@ -1,10 +1,5 @@
-#include "Config.h"
-
-#if defined(LYNX_PLATFORM_LINUX)
-
-#include "Platform/C/LynxWindow.h"
 #include <X11/Xlib.h>
-
+#include "Event.h"
 #include "cstdio"
 
 // Utils
@@ -96,5 +91,3 @@ void getPosition(LynxWindow*, int32_t*, int32_t*) {
 void setBorderWidth(LynxWindow* win, uint32_t width) {
     XSetWindowBorderWidth(win -> d, win -> w, width);
 }
-
-#endif // LYNX_PLATFORM_LINUX

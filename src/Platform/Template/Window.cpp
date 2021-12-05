@@ -1,7 +1,3 @@
-#include "Config.h"
-
-#if defined(LYNX_PLATFORM_EXAMPLE_PLATFORM)
-
 #include "Platform/C/LynxWindow.h"
 
 struct LynxWindow {
@@ -48,5 +44,3 @@ void setPosition(LynxWindow*, int32_t, int32_t) {
 void getPosition(LynxWindow*, int32_t*, int32_t*) {
 
 }
-
-#endif // LYNX_PLATFORM_EXAMPLE_PLATFORM
