@@ -1,46 +1,45 @@
-#include "Platform/C/LynxWindow.h"
+#include "Platform/C/Window.h"
 
-struct LynxWindow {
-    SOMEHANDLETYPE handle;
-    ...
+struct Window {
+    SOME_HANDLE_TYPE handle;
 };
 
-LynxWindow* createWindow() {
+Window* createWindow() {
 
 }
 
-bool destroyWindow(LynxWindow*) {
+bool destroyWindow(Window *window) {
 
 }
 
-bool pollEvent(LynxWindow*, Event*) {
+bool pollEvent(Window *window, Event *event) {
 
 }
 
-bool waitEvent(LynxWindow*, Event*) {
+bool waitEvent(Window *window, Event *event) {
 
 }
 
-void close(LynxWindow*) {
+void close(Window *window) {
 
 }
 
-void requestFocus(LynxWindow*) {
+void requestFocus(Window *window) {
 
 }
 
-void setSize(LynxWindow*, uint32_t, uint32_t) {
+void setSize(Window *window, uint32_t width, uint32_t height) {
 
 }
 
-void getSize(LynxWindow*, uint32_t*, uint32_t*) {
+void getSize(Window *window, uint32_t *width, uint32_t *height) {
 
 }
 
-void setPosition(LynxWindow*, int32_t, int32_t) {
+void setPosition(Window *window, int32_t x, int32_t y) {
 
 }
 
-void getPosition(LynxWindow*, int32_t*, int32_t*) {
+void getPosition(Window *window, int32_t *x, int32_t *y) {
 
 }

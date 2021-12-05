@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Platform/C/LynxWindow.h"
+#include "Platform/C/Window.h"
 
 int main() {
     auto window = createWindow();

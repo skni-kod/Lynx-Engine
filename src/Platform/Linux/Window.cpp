@@ -1,10 +1,16 @@
-#include <X11/Xlib.h>
-#include "Event.h"
+#include "Platform/C/Window.h"
 #include "cstdio"
 
-// Utils
 
-bool translateEvent(XEvent *xe, Event *e) {
+// Ugly hack to avoid type name collision (Window)
+namespace X11 {
+    #include <X11/Xlib.h>
+    #undef _XPrivDisplay
+    #define _XPrivDisplay X11::_XPrivDisplay
+}
+
+
+bool translateEvent(X11::XEvent *xe, Event *e) {
     switch(xe -> type) {
         case KeyPress:
             e -> type = Event::EventType::KeyPressed;
@@ -20,17 +26,17 @@ bool translateEvent(XEvent *xe, Event *e) {
     return false;
 }
 
-struct LynxWindow {
-    Display *d;
-    Window w;
-    XEvent xevent;
+struct Window {
+    X11::Display *d;
+    X11::Window w;
+    X11::XEvent xevent;
     int s;
 };
 
-LynxWindow* createWindow() {
-    auto win = new LynxWindow;
+Window* createWindow() {
+    auto win = new Window;
 
-    win -> d = XOpenDisplay(nullptr);
+    win -> d = X11::XOpenDisplay(nullptr);
     if (win -> d == nullptr)
         return nullptr;
 
@@ -44,50 +50,50 @@ LynxWindow* createWindow() {
     return win;
 }
 
-bool destroyWindow(LynxWindow* win) {
+bool destroyWindow(Window* win) {
     XDestroyWindow(win -> d, win -> w);
     XCloseDisplay(win -> d);
     return true;
 }
 
-bool pollEvent(LynxWindow *win, Event *e) {
+bool pollEvent(Window *win, Event *e) {
     XNextEvent(win -> d, &win -> xevent); // oops this blocks
     translateEvent(&win -> xevent, e);
     return true;
 }
 
-bool waitEvent(LynxWindow *win, Event *e) {
+bool waitEvent(Window *win, Event *e) {
     XNextEvent(win -> d, &win -> xevent);
     translateEvent(&win -> xevent, e);
     return true;
 }
 
-void close(LynxWindow*) {
+void close(Window*) {
 
 }
 
-void requestFocus(LynxWindow*) {
+void requestFocus(Window*) {
 
 }
 
-void setSize(LynxWindow *win, uint32_t width, uint32_t height) {
+void setSize(Window *win, uint32_t width, uint32_t height) {
     XResizeWindow(win -> d, win -> w, width, height);
 }
 
-void getSize(LynxWindow*, uint32_t*, uint32_t*) {
+void getSize(Window*, uint32_t*, uint32_t*) {
 
 }
 
-void setPosition(LynxWindow *win, int32_t x, int32_t y) {
+void setPosition(Window *win, int32_t x, int32_t y) {
     XMoveWindow(win -> d, win -> w, x, y);
 }
 
-void getPosition(LynxWindow*, int32_t*, int32_t*) {
+void getPosition(Window*, int32_t*, int32_t*) {
 
 }
 
 // Platform specific functions
 
-void setBorderWidth(LynxWindow* win, uint32_t width) {
+void setBorderWidth(Window* win, uint32_t width) {
     XSetWindowBorderWidth(win -> d, win -> w, width);
 }
