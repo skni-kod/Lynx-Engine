@@ -1,3 +1,0 @@
-C:/Users/użytkownik1/Documents/GitHub/Lynx-Engine/build/CMakeFiles/lynx-engine.dir
-C:/Users/użytkownik1/Documents/GitHub/Lynx-Engine/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/użytkownik1/Documents/GitHub/Lynx-Engine/build/CMakeFiles/ZERO_CHECK.dir
