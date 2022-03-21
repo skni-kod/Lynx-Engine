@@ -1,5 +1,6 @@
 SET(PLATFORM_SOURCES
-        Window.cpp
+        WindowsGLContext.cpp
+
         # Clipboard.cpp
         # Jakieś
         # inne
