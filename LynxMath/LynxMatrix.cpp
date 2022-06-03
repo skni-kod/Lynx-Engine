@@ -1,4 +1,7 @@
 #include "LynxMatrix.h"
+//for test 
+#include <iostream>
+//not for test
 Matrix3::Matrix3()
 {
     for (int i; i < 9; ++i)
@@ -172,14 +175,15 @@ Vector3 Matrix3::operator[](int x)
 // matrix4
 Matrix4::Matrix4()
 {
-    for (int i; i < 9; ++i)
+    for (int i; i < 16; ++i)
     {
-        field[i] = 0;
+        field[i] = 0.0;
     }
     field[0] = 1;
     field[5] = 1;
     field[10] = 1;
     field[15] = 1;
+
 }
 // put an array to fill the matrix
 Matrix4::Matrix4(double *var)
@@ -215,6 +219,9 @@ Matrix4::Matrix4(Matrix4 *mat)
     {
         field[j] = mat->field[j];
     }
+}
+Matrix4::~Matrix4(){
+
 }
 /* matrix scaled by vector x -> 0, y -> 1, z->2 w->3*/
 void Matrix4::scale(Vector4 &vect)
@@ -284,7 +291,7 @@ Matrix4 Matrix4::operator+(Matrix4 &right)
     return tmp;
 }
 /*Multiplication*/
-Matrix4 Matrix4::operator*(Matrix4 &right)
+Matrix4 Matrix4::operator*(Matrix4 right)
 {
     Matrix4 tmp;
     for (int j = 0; j < 4; ++j)
@@ -297,19 +304,50 @@ Matrix4 Matrix4::operator*(Matrix4 &right)
 
     return tmp;
 }
-Vector4 Matrix4::operator*(Vector4 &right)
+Matrix4 Matrix4::operator*(Matrix4 *right)
+{
+        Matrix4 tmp;
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            tmp.field[j * 4 + i] = field[i * 4] * right->field[j] + field[i * 4 + 1] * right->field[j + 4] + field[i * 4 + 2] * right->field[j + 8] + field[i * 4 + 3] * right->field[j + 12];
+        }
+    }
+
+    return tmp;
+}
+Matrix4& Matrix4::operator*=(Matrix4 *right)
+{
+    Matrix4 tmp;
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            tmp.field[j * 4 + i] = field[i * 4] * right->field[j] + field[i * 4 + 1] * right->field[j + 4] + field[i * 4 + 2] * right->field[j + 8] + field[i * 4 + 3] * right->field[j + 12];
+        }
+    }
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+        field[j * 4 + i] =  tmp.field[j * 4 + i];
+        }
+    }
+    return *this;
+}
+Vector4 operator*(Matrix4 *left, Vector4 right)
 {
     Vector4 tmp;
     for (int i = 0; i < 4; ++i)
     {
-        tmp[i] = field[i * 4] * right[i] +
-                 field[i * 4 + 1] * right[i] + field[i * 4 + 2] * right[i] + field[i * 4 + 3] * right[i];
+        tmp[i] = left->field[i * 4] * right.x + left->field[i * 4 + 1] * right.y + left->field[i * 4 + 2] * right.z + left->field[i * 4 + 3] * right.w;
     }
 
     return tmp;
 }
 
-Matrix4 Matrix4::operator*(double &right)
+Matrix4 Matrix4::operator*(double right)
 {
     Matrix4 tmp;
     for (int i = 0; i < 16; ++i)
@@ -342,77 +380,84 @@ Vector4 Matrix4::operator[](int x)
 Transformation matrixes
 
 */
-TransformationMatrix3D::TransformationMatrix3D() : Matrix4()
+Transform::Transform() 
 {
     rotation = Quaternion(Vector3(0,0,0));
     fScale = Vector3(0,0,0);
-    createTranMatrix();
-    
+    position = Vector3(0,0,0);
+
 }
-TransformationMatrix3D::TransformationMatrix3D(Vector3 trans, Vector3 rot, Vector3 sca): Matrix4()
+Transform::Transform(Vector3 pos, Vector3 rot, Vector3 sca) : Matrix4()
 {
     rotation = Quaternion(rot); 
     fScale = Vector3(sca.x, sca.y, sca.z);
-    createTranMatrix();
-    this->field[3] = trans.x;
-    this->field[7] = trans.y;
-    this->field[11] = trans.z;
+    position = pos;
 }
-TransformationMatrix3D::TransformationMatrix3D(Vector3 trans): Matrix4()
+Transform::Transform(Vector3 pos)
 {
+    rotation = Quaternion(Vector3(0,0,0));
     fScale = Vector3(1,1,1);
-    createTranMatrix();
-    this->field[3] = trans.x;
-    this->field[7] = trans.y;
-    this->field[11] = trans.z;
+    position = pos;
 }
-void TransformationMatrix3D::setRotation(Vector3 rot)
+Transform::~Transform() 
 {
 
 }
-void TransformationMatrix3D::rotate(Vector3 rot)
+void Transform::setRotation(Vector3 rot)
+{
+    this->rotation = Quaternion(rot);
+}
+void Transform::rotate(Vector3 rot)
+{
+    this->rotation*=Quaternion(rot);
+}
+Quaternion Transform::getRotation()
+{
+    return this->rotation;
+}
+
+void Transform::scale(Vector3 sc)
 {
 
+    this->fScale = fScale+sc;
 }
-Quaternion TransformationMatrix3D::getRotation()
+void Transform::setScale(Vector3 sc)
 {
-
+    this->fScale = sc;
 }
-
-void TransformationMatrix3D::scale(Vector3 sc)
+Vector3 Transform::getScale()
 {
-
+ return this->fScale;
 }
-void TransformationMatrix3D::setScale(Vector3 sc)
-{
-
+void Transform::Repostion(Vector3 trans){
+    position = position+trans;
 }
-Vector3 TransformationMatrix3D::getScale()
-{
-
+void Transform::setPostion(Vector3 trans){
+    position = trans;
 }
-void TransformationMatrix3D::transform(Vector3 trans){
-
+Vector3 Transform::getPosition(){
+    return this->position;
 }
-void TransformationMatrix3D::setTransform(Vector3 trans){
 
-}
-Vector3 TransformationMatrix3D::getTransform(){
-
-}
-void TransformationMatrix3D::createTranMatrix()
+//to get transform matrix you need to call this function and use returned pointer. I think its faster 
+Matrix4* Transform::createTranMatrix()
 {
     this->field[0] = this->fScale.x *(1-2* rotation.y*rotation.y-2*rotation.z*rotation.z);
-    this->field[1] = this->fScale.x *(2* rotation.x*rotation.y-2*rotation.z*rotation.w);
-    this->field[2] = this->fScale.x *(2* rotation.x*rotation.z+2*rotation.y*rotation.w);
+    this->field[4] = this->fScale.x *(2* rotation.x*rotation.y-2*rotation.z*rotation.w);
+    this->field[8] = this->fScale.x *(2* rotation.x*rotation.z+2*rotation.y*rotation.w);
 
-    this->field[4] = this->fScale.y *(2* rotation.x*rotation.y+2*rotation.z*rotation.w);
+    this->field[1] = this->fScale.y *(2* rotation.x*rotation.y+2*rotation.z*rotation.w);
     this->field[5] = this->fScale.y *(1-2* rotation.x*rotation.x-2*rotation.z*rotation.z);
-    this->field[6] = this->fScale.y *(2* rotation.y*rotation.z-2*rotation.x*rotation.w);
+    this->field[9] = this->fScale.y *(2* rotation.y*rotation.z-2*rotation.x*rotation.w);
 
-    this->field[8] = this->fScale.z *(2* rotation.x*rotation.z-2*rotation.y*rotation.w);
-    this->field[9] = this->fScale.z *(2* rotation.y*rotation.z+2*rotation.x*rotation.w);
+    this->field[2] = this->fScale.z *(2* rotation.x*rotation.z-2*rotation.y*rotation.w);
+    this->field[6] = this->fScale.z *(2* rotation.y*rotation.z+2*rotation.x*rotation.w);
     this->field[10] =this->fScale.z *(1-2* rotation.x*rotation.x-2*rotation.y*rotation.y);
+
+    this->field[3] = position.x;
+    this->field[7] = position.y;
+    this->field[11] = position.z;
+    return dynamic_cast<Matrix4*>(this);
 }
 
 /*

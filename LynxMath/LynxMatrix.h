@@ -6,8 +6,8 @@ public:
     // constructors
     /* Matrix with 1 on diagonal*/
     Matrix3();
-    //constructor for testing purposes
-    Matrix3(double* var);
+    // constructor for testing purposes
+    Matrix3(double *var);
     /* Matrix filled with variable*/
     Matrix3(double &var);
     /* Columns filled with value of field of vector x -> 0, y -> 1, z->2*/
@@ -54,14 +54,15 @@ public:
     // constructors
     /* Matrix with 1 on diagonal*/
     Matrix4();
-    //constructor for testing purposes
-    Matrix4(double* var);
+    // constructor for testing purposes
+    Matrix4(double *var);
     /* Matrix filled with variable*/
     Matrix4(double &var);
     /* Columns filled with value of field of vector x -> 0, y -> 1, z->2*/
     Matrix4(Vector4 &vect);
     /* Coppy matrix to this matrix */
     Matrix4(Matrix4 *mat);
+    ~Matrix4();
     // methods
     /* matrix scaled by vector x -> 0, y -> 1, z->2*/
     void scale(Vector4 &vect);
@@ -83,37 +84,39 @@ public:
     /*add matrix to matrix */
     Matrix4 operator+(Matrix4 &right);
     /*Multiplication*/
-    Matrix4 operator*(Matrix4 &right);
-    Vector4 operator*(Vector4 &right);
-    Matrix4 operator*(double &right);
+    Matrix4 operator*(Matrix4 right);
+    Vector4 operator*(Vector4 right);
+    Matrix4 operator*(double right);
+    Matrix4 operator*(Matrix4 *right);
+    Matrix4 &operator*=(Matrix4 *right);
     /*substraction  */
     Matrix4 operator-(Matrix4 &right);
     /*get value of index*/
     Vector4 operator[](int x);
 };
-class TransformationMatrix3D : Matrix4
+class Transform : public Matrix4
 {
     Quaternion rotation;
     Vector3 fScale;
-    public:
-    TransformationMatrix3D();
-    TransformationMatrix3D(Vector3 trans, Vector3 rot, Vector3 sca);
-    TransformationMatrix3D(Vector3 trans);
+    Vector3 position;
 
+public:
+    Transform();
+    Transform(Vector3 pos, Vector3 rot, Vector3 sca);
+    Transform(Vector3 pos);
+    ~Transform();
     void setRotation(Vector3 rot);
     void rotate(Vector3 rot);
     Quaternion getRotation();
-    
-    void scale(Vector3 sc);;
+
+    void scale(Vector3 sc);
+    ;
     void setScale(Vector3 sc);
     Vector3 getScale();
 
-    void transform(Vector3 trans);
-    void setTransform(Vector3 trans);
-    Vector3 getTransform();
-    private: 
-    void createTranMatrix();
-
-
-
+    void Repostion(Vector3 trans);
+    void setPostion(Vector3 trans);
+    Vector3 getPosition();
+    Matrix4 *createTranMatrix();
 };
+Vector4 operator*(Matrix4 *left, Vector4 right);
