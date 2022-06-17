@@ -2,12 +2,10 @@
 #define PATH_H
 
 #include <string>
-#include <stack>
 
 class Path {
 public:
-    Path();
-    Path(std::wstring& path);
+    Path(const std::wstring& path);
 
     std::wstring GetFileName();
     std::wstring GetExtension();
@@ -27,7 +25,7 @@ public:
 
 
 private:
-    std::stack<wchar_t*> path_stack;
+    std::wstring path;
     bool is_relative;
 
 
@@ -36,6 +34,6 @@ private:
     const static wchar_t invalid_path_symbols[];
 };
 
-const wchar_t Path::internal_separator = L'/';
+const wchar_t Path::internal_separator = '/';
 
 #endif // PATH_H
